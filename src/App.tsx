@@ -1,5 +1,9 @@
+import { HeroSection } from "./sections/HeroSection"
+
 export const App =()=>{
   return(
-  <div></div>
+  <div>
+    <HeroSection/>
+  </div>
   )
 }

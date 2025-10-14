@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAbout, type AboutType } from "../hooks/useAbout";
 import { Button } from "../components/button";
 import { PlayIcon } from "lucide-react";
+import img from '../../public/Asset 1.svg'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -100,7 +101,7 @@ export const AboutInfoSection = () => {
         </p>
 
        </div>
-       <img src="" alt="asset" className="w-[644.28px] h-[378.13px]"  />
+       <img src={img} alt="asset" className="w-[644.28px] h-[378.13px]"  />
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import DotGrid from "../components/DotGrid";
 import { Button } from "../components/button";
 import { ChevronDownIcon } from "lucide-react";
 import { Badge } from "../components/badge";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo from '../../public/logo 1.svg'
+import i18n from "../i18n";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,14 @@ const navigationItems = [
 ];
 export const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen,setIsDropdownOpen]=useState(false)
+
+
+  const languages=[
+    {code:'tm',label:'TM'},
+    {code:'ru',label:'RU'},
+    {code:'en',label:'EN'},
+  ]
 
   useEffect(() => {
     if (heroRef.current) {
@@ -82,15 +91,44 @@ export const HeroSection = () => {
               {item.label}
             </Button>
           ))}
-          <Button
-            variant="ghost"
-            className="px-4 px-2 rounded-full text-gray-700 hover:text-blue-600"
-          >
-            <div className="flex  items-center gap-1 text-md">
-              <span className="font-semmibold">EN</span>
-              <ChevronDownIcon className="w-5 h-5" />
-            </div>
+         <div className="relative">
+          <Button variant='ghost'
+          onClick={()=>setIsDropdownOpen(!isDropdownOpen)}
+          className="px-4 px-2 rounded-full text-gray-700 text-gray-700 hover:text-blue-600">
+          <div className="flex items-center gap-1 text-md">
+            <span className="font-semibold uppercase">
+              {i18n.languages}
+
+            </span>
+            <ChevronDownIcon className="w-5 h-5"/>
+
+          </div>
           </Button>
+
+    {isDropdownOpen && (
+      <div className="absolute right-0 mt-2 bg-white shadow-lg rounded-md overflow-hidden z-50">
+        {languages.map((lang)=>(
+          <button key={lang.code}
+          onClick={()=>{
+            i18n.changeLanguage(lang.code);
+            setIsDropdownOpen(false)
+          }}
+          className={`block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 ${i18n.language===lang.code ? 'font-bold  text-blue-600':''}`}>
+             {lang.label}
+          </button>
+        ))}
+
+      </div>
+    )}
+
+
+
+
+
+
+
+
+         </div>
         </nav>
       </header>
 

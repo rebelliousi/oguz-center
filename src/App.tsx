@@ -1,4 +1,5 @@
 import { AboutInfoSection } from "./sections/AboutInfoSection"
+import { CDIOSection } from "./sections/CDIOSection"
 import { HeroSection } from "./sections/HeroSection"
 import { NewsSection } from "./sections/NewsSection"
 
@@ -8,6 +9,7 @@ export const App =()=>{
     <HeroSection/>
     <NewsSection/>
     <AboutInfoSection/>
+    <CDIOSection/>
   </div>
   )
 }

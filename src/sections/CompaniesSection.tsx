@@ -4,8 +4,9 @@ import image1 from '../../public/halkbank.svg'
 import image2 from '../../public/dsb.svg'
 import image3 from '../../public/tstp.svg'
 import image4 from '../../public/icon.svg'
-import { useEffect, useRef } from "react";
+import { use, useEffect, useRef } from "react";
 import { useCompanies } from "../hooks/useCompanies";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -42,6 +43,8 @@ export const PartnersSection=()=>{
     const partnersRef=useRef<HTMLDivElement>(null)
     const {data}=useCompanies()
 
+    const {t}=useTranslation()
+
     useEffect(()=>{
      const ctx=gsap.context(()=>{
         gsap.from(partnersRef.current?.querySelectorAll('.partner-item') || [],{
@@ -63,7 +66,7 @@ export const PartnersSection=()=>{
     return(
         <div ref={partnersRef} className="flex flex-col items-center gap-[60px] px-[150px] py-0 w-full">
             <h2 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-medium-new-gray text-[28px] text-center tracking-[-0.56px] leading-[33.6px] whitespace-nowrap">
-               HYZMATDAŞLAR
+               {t('company')}
             </h2>
 
             <div className="flex items-center justify-between w-full">

@@ -18,7 +18,7 @@ export const FormField: React.FC<FormFieldProps> = ({ label, value, type = "text
       } bg-lightest-gray rounded-lg border border-solid border-[#fcfcfe]`}
     >
       {type === "file" ? (
-        <div className="flex items-center justify-between w-full">
+        <div className="flex items-center  justify-between w-full">
           <Label>{label}</Label>
           <div className="flex items-center gap-2">
             <input
@@ -37,20 +37,20 @@ export const FormField: React.FC<FormFieldProps> = ({ label, value, type = "text
           </div>
         </div>
       ) : (
-        <div className={`flex flex-col w-full ${type === "textarea" ? "h-full" : "h-9"}`}>
+        <div className={`flex flex-col  w-full ${type === "textarea" ? "h-full" : "h-9"}`}>
           <Label>{label}</Label>
           {type === "textarea" ? (
             <textarea
               value={value as string}
               onChange={(e) => onChange && onChange(e.target.value)}
-              className="bg-transparent border-none w-full h-full resize-none focus:outline-none min-h-[100px] flex-1"
+              className="bg-transparent  border-none w-full h-full resize-none focus:outline-none min-h-[100px] flex-1"
             />
           ) : (
             <input
               type={type}
               value={value as string}
               onChange={(e) => onChange && onChange(e.target.value)}
-              className="bg-transparent border-none w-full h-full focus:outline-none"
+              className="bg-transparent mt-[10px] border-none w-full h-full focus:outline-none"
             />
           )}
         </div>

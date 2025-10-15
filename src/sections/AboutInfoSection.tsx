@@ -6,6 +6,7 @@ import { Button } from "../components/button";
 import { PlayIcon } from "lucide-react";
 import img from '../../public/Asset 1.svg'
 import { useTranslation } from "react-i18next";
+import thumbnail from '../../public/thumbnail.png'
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,7 +59,7 @@ export const AboutInfoSection = () => {
         <div className="relative w-[622px] h-[350px] bg-[#d5d5d5] rounded-lg overflow-hidden flex items-center justify-center">
             {!isVideoPlaying ? (
                 <div className="relative w-full h-full">
-                    <img src="" alt="thumbnail"  className="w-full h-full object-cover rounded-lg"/>
+                    <img src={thumbnail} alt="thumbnail"  className="w-full h-full object-cover rounded-lg"/>
                     <Button
                     variant='ghost'
                     size='icon'

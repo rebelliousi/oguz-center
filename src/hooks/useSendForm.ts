@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../api"; // axios instance
+import { api } from "../api"; 
 
 export interface FormDataType {
   full_name: string;
@@ -7,7 +7,7 @@ export interface FormDataType {
   about_you: string;
   phone_number: string;
   description: string;
-  file: File | null; // <- faýl binary görnüşde
+  file: File | null; 
 }
 
 const submitForm = async (data: FormDataType) => {

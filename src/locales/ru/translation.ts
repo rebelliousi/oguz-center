@@ -28,6 +28,13 @@ const ru = {
     submit: "Отправить",
     submitted: "Отправлено",
     sending: "Отправляется...",
+     enterVerificationCode: "Введите код подтверждения",
+    verificationCode: "Код подтверждения",
+    verifyEmail: "Подтвердить Email",
+    emailVerified: "Email успешно подтвержден!",
+    verifyFailed: "Не удалось подтвердить email. Пожалуйста, попробуйте еще раз.",
+
+
   },
   menu: {
     main: "Меню",

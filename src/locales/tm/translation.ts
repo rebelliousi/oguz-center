@@ -28,6 +28,11 @@ const tm = {
     submit: "Ugratmak",
     submitted: "Ugradylyar",
     sending: "Ugradylýar...",
+    enterVerificationCode: "Tassyklaýyş koduny giriziň",
+    verificationCode: "Tassyklaýyş kody",
+    verifyEmail: "Emaili tassykla",
+    emailVerified: "Email üstünlikli tassyklandy!",
+    verifyFailed: "Emaili tassyklamak başarsyz boldy. Iňlisini gaýtadan synanyşyň.",
   },
   menu: {
     main: "Menyu",

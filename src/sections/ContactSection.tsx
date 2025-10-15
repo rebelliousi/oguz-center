@@ -1,83 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../components/button";
-import { Label } from "../components/label";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useSubmitForm, type FormDataType } from "../hooks/useSendForm"
-import { AiOutlineUpload } from "react-icons/ai";
-import image from '../../public/email.svg'
+import { useSubmitForm, type FormDataType } from "../hooks/useSendForm";
+import { useVerifyEmail } from "../hooks/useVerifyEmail";
+
+import image from "../../public/email.svg";
 import { useTranslation } from "react-i18next";
+import { Modal } from "../components/modal";
+import { FormField } from "../components/FormField";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface FormFieldProps {
-  label: string;
-  value?: string | File;
-  type?: "text" | "textarea" | "file";
-  onChange?: (value: string | File) => void;
-}
-
-const FormField: React.FC<FormFieldProps> = ({ label, value, type = "text", onChange }) => (
-  <div className="flex-1 flex flex-col items-start gap-2">
-    <div
-      className={`flex flex-col items-start gap-2.5 px-4 py-3 w-full ${
-        type === "textarea" ? "min-h-[150px]" : "h-[69px]"
-      } bg-lightest-gray rounded-lg border border-solid border-[#fcfcfe]`}
-    >
-      {type === "file" ? (
-        <div className="flex items-center justify-between w-full">
-          <Label className="text-[length:var(--big-font-size)] tracking-[var(--big-letter-spacing)] leading-[var(--big-line-height)] font-big font-[number:var(--big-font-weight)] text-light-themegraymd-new-grey whitespace-nowrap [font-style:var(--big-font-style)]">
-            {label}
-          </Label>
-          <div className="flex items-center gap-2">
-            <input
-              type="file"
-              id={`file-input-${label}`}
-              className="hidden"
-              onChange={(e) => e.target.files && onChange && onChange(e.target.files[0])}
-            />
-            <label
-              htmlFor={`file-input-${label}`}
-              className="flex items-center gap-2 pt-1 cursor-pointer text-blue-500"
-            >
-              <AiOutlineUpload size={24} />
-              <span>{value ? (value as File).name : ''}</span>
-            </label>
-          </div>
-        </div>
-      ) : (
-        <div className={`flex flex-col w-full ${type === "textarea" ? "h-full" : "h-9"}`}>
-          <Label className="text-[length:var(--big-font-size)] tracking-[var(--big-letter-spacing)] leading-[var(--big-line-height)] font-big font-[number:var(--big-font-weight)] text-light-themegraymd-new-grey whitespace-nowrap [font-style:var(--big-font-style)]">
-            {label}
-          </Label>
-          {type === "textarea" ? (
-            <textarea
-              value={value as string}
-              onChange={(e) => onChange && onChange(e.target.value)}
-              className="bg-transparent border-none w-full h-full resize-none focus:outline-none min-h-[100px] flex-1"
-              style={{ minHeight: "100px" }}
-            />
-          ) : (
-            <input
-              type={type}
-              value={value as string}
-              onChange={(e) => onChange && onChange(e.target.value)}
-              className="bg-transparent border-none w-full h-full focus:outline-none"
-            />
-          )}
-        </div>
-      )}
-    </div>
-  </div>
-);
-
 export const ContactSection = () => {
-     const { t } = useTranslation();
+  const { t } = useTranslation();
+  const [verificationCode, setVerificationCode] = useState("");
+  const [showVerification, setShowVerification] = useState(false);
+
   const sectionRef = useRef<HTMLElement>(null);
   const illustrationRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
-  const { mutate, isPending, isSuccess, isError } = useSubmitForm();
+  const { mutate, isPending } = useSubmitForm();
+  const {
+    mutate: verifyMutateEmail,
+    isPending: isVerifying,
+    isSuccess: verifySuccess,
+  
+  } = useVerifyEmail();
 
   const [formData, setFormData] = useState<FormDataType>({
     full_name: "",
@@ -124,31 +75,72 @@ export const ContactSection = () => {
   };
 
   const handleSubmit = () => {
-    mutate(formData);
+    mutate(formData, {
+      onSuccess: () => setShowVerification(true),
+    });
   };
 
   return (
-    <section id="habarlasmak" ref={sectionRef} className="flex items-start gap-20 p-[150px] w-full bg-gray-white">
+    <section
+      id="habarlasmak"
+      ref={sectionRef}
+      className="flex items-start gap-20 p-[150px] w-full bg-gray-white"
+    >
+      <Modal
+        isOpen={showVerification}
+        onclose={() => setShowVerification(false)}
+      >
+        <div className="flex flex-col gap-3">
+          {/* <p className="text-green-600 text-center">{t('form.submitted')}</p> */}
+          <h3 className="w-full font-semibold">
+            {t("form.enterVerificationCode")}
+          </h3>
+          <input
+            type="text"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            className="border p-2 rounded w-full focus:outline-none"
+            placeholder={t("form.verificationCode")}
+          />
+          <Button
+            onClick={() =>
+              verifyMutateEmail({
+                gmail: formData.gmail,
+                verification_code: verificationCode,
+              })
+            }
+            disabled={isVerifying}
+            className="mt-2 bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            {isVerifying ? "Verifying..." : t("form.verifyEmail")}
+          </Button>
+          {verifySuccess && (
+            <p className="text-green-600 text-center">
+              {t("form.emailVerified")}
+            </p>
+          )}
+        </div>
+      </Modal>
       <div className="flex items-start gap-20 flex-1">
         <div ref={formRef} className="flex flex-col items-start gap-8 flex-1">
           <h2 className="w-fit [font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-[44px] text-center tracking-[0] leading-[52.8px] whitespace-nowrap">
-            {t('innovation')}
+            {t("innovation")}
           </h2>
 
           <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-           {t('contactText')}
+            {t("contactText")}
           </p>
 
           <div className="flex flex-col items-end justify-center gap-8 w-full">
             <div className="flex flex-col items-start gap-4 w-full">
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                  label={t('form.name')}
+                  label={t("form.name")}
                   value={formData.full_name}
                   onChange={(val) => handleChange("full_name", val)}
                 />
                 <FormField
-                    label={t('form.phone')}
+                  label={t("form.phone")}
                   value={formData.phone_number}
                   onChange={(val) => handleChange("phone_number", val)}
                 />
@@ -156,12 +148,12 @@ export const ContactSection = () => {
 
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                  label={t('form.email')}
+                  label={t("form.email")}
                   value={formData.gmail}
                   onChange={(val) => handleChange("gmail", val)}
                 />
                 <FormField
-                 label={t('form.file')}
+                  label={t("form.file")}
                   type="file"
                   value={formData.file ?? undefined}
                   onChange={(val) => handleChange("file", val)}
@@ -170,13 +162,13 @@ export const ContactSection = () => {
 
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                label={t('form.about')}
+                  label={t("form.about")}
                   type="textarea"
                   value={formData.about_you}
                   onChange={(val) => handleChange("about_you", val)}
                 />
                 <FormField
-                 label={t('form.ideaDescription')}
+                  label={t("form.ideaDescription")}
                   type="textarea"
                   value={formData.description}
                   onChange={(val) => handleChange("description", val)}
@@ -190,12 +182,9 @@ export const ContactSection = () => {
               disabled={isPending}
             >
               <span className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-light-themegraywhite text-xl text-center tracking-[0] leading-[24.0px] whitespace-nowrap">
-                   {isPending ? "Ugradylýar..." : t('form.submit')}
+                {isPending ? "Ugradylýar..." : t("form.submit")}
               </span>
             </Button>
-         
-            {isSuccess && <p className="text-green-600">{t('form.submitted')}</p>}
-            {isError && <p className="text-red-600">{t('form.submit')}</p>}
           </div>
         </div>
 

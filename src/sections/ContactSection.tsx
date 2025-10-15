@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useSubmitForm, type FormDataType } from "../hooks/useSendForm"
 import { AiOutlineUpload } from "react-icons/ai";
 import image from '../../public/email.svg'
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -71,6 +72,7 @@ const FormField: React.FC<FormFieldProps> = ({ label, value, type = "text", onCh
 );
 
 export const ContactSection = () => {
+     const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const illustrationRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
@@ -130,25 +132,23 @@ export const ContactSection = () => {
       <div className="flex items-start gap-20 flex-1">
         <div ref={formRef} className="flex flex-col items-start gap-8 flex-1">
           <h2 className="w-fit [font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-[44px] text-center tracking-[0] leading-[52.8px] whitespace-nowrap">
-            INNOWASION IDEÝALARYŇ GAZNASY
+            {t('innovation')}
           </h2>
 
           <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-            Ylmy talap edýän tehnologiýalara daýanýan, bäsdeşlige ukyply, satmak, daşary ýurtlara eksport etmek,
-            önümçilige ornaşdyrmak mümkinçilikleri uly bolan ylmy-tehniki taslamaňyzy, innowasion teklibiňizi,
-            ideýaňyzy durmuşa geçirmek üçin bize ýüz tutuň
+           {t('contactText')}
           </p>
 
           <div className="flex flex-col items-end justify-center gap-8 w-full">
             <div className="flex flex-col items-start gap-4 w-full">
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                  label="At we Familiýa"
+                  label={t('form.name')}
                   value={formData.full_name}
                   onChange={(val) => handleChange("full_name", val)}
                 />
                 <FormField
-                  label="Telefon belgiňiz"
+                    label={t('form.phone')}
                   value={formData.phone_number}
                   onChange={(val) => handleChange("phone_number", val)}
                 />
@@ -156,12 +156,12 @@ export const ContactSection = () => {
 
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                  label="E-poçtaňyz"
+                  label={t('form.email')}
                   value={formData.gmail}
                   onChange={(val) => handleChange("gmail", val)}
                 />
                 <FormField
-                  label="Faýl goş"
+                 label={t('form.file')}
                   type="file"
                   value={formData.file ?? undefined}
                   onChange={(val) => handleChange("file", val)}
@@ -170,13 +170,13 @@ export const ContactSection = () => {
 
               <div className="flex items-start gap-4 w-full">
                 <FormField
-                  label="Özüňiz barada"
+                label={t('form.about')}
                   type="textarea"
                   value={formData.about_you}
                   onChange={(val) => handleChange("about_you", val)}
                 />
                 <FormField
-                  label="Ideýaňiziň beýany"
+                 label={t('form.ideaDescription')}
                   type="textarea"
                   value={formData.description}
                   onChange={(val) => handleChange("description", val)}
@@ -190,11 +190,12 @@ export const ContactSection = () => {
               disabled={isPending}
             >
               <span className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-light-themegraywhite text-xl text-center tracking-[0] leading-[24.0px] whitespace-nowrap">
-                {isPending ? "Ugradylýar..." : "Ugratmak"}
+                   {isPending ? "Ugradylýar..." : t('form.submit')}
               </span>
             </Button>
-            {isSuccess && <p className="text-green-600">Form üstünlikli ugradyldy!</p>}
-            {isError && <p className="text-red-600">Form ugradylmady. Täzeden synanyşyň.</p>}
+         
+            {isSuccess && <p className="text-green-600">{t('form.submitted')}</p>}
+            {isError && <p className="text-red-600">{t('form.submit')}</p>}
           </div>
         </div>
 

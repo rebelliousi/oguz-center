@@ -6,10 +6,12 @@ import { Button } from "../components/button";
 import { ArrowRightIcon, ChevronLeftIcon, ChevronRight, ChevronRightIcon } from "lucide-react";
 import { Card, CardContent } from "../components/card";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const NewsSection = () => {
+      const { t } = useTranslation();
   const newsRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { data } = useNews();
@@ -95,7 +97,7 @@ export const NewsSection = () => {
                      <div className="inline-flex items-center gap-2 px-0 py-2">
                         <Link to={`/news/${item.id}`} className="inline-flex items-center gap-2">
                         <span className="font-semibold text-[#293447]  whitespace-nowrap">
-                            Doly
+                            {t('full')}
                         </span>
                         <ArrowRightIcon className="w-6 h-6"/>
                         </Link>

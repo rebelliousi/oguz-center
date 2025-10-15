@@ -5,6 +5,7 @@ import { useAbout, type AboutType } from "../hooks/useAbout";
 import { Button } from "../components/button";
 import { PlayIcon } from "lucide-react";
 import img from '../../public/Asset 1.svg'
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +15,7 @@ export const AboutInfoSection = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const { data } = useAbout();
-
+   const { t } = useTranslation();
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(aboutInfoRef.current?.children || [], {
@@ -49,12 +50,7 @@ export const AboutInfoSection = () => {
             {about?.title}
           </h2>
           <p className="[font-family:'Plus_Jakarta_Sans',Helvetica]  font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-             Türkmenistanda innowasion nano-, bio-, maglumat, kiberhowupsuzlyk,
-            sanly we akylly tehnologiýalar, emeli aň we maglumat-kommunikasiýa,
-            kibersport, elektron enjamlaryň tehnologiýalary, kompýuter we mobil
-            programmalary döretmek we satmak, ylmyň, önümçiliginiň, senagatyň we
-            işewürligiň ileri tutulýan ugurlaryny sanly ykdysadyýetiň kömegi
-            bilen ösdürmek boýunça ýöriteleşdirilen ylmy-önümçilik edarasy
+          {t('aboutText')}
           </p>
 
 
@@ -86,18 +82,12 @@ export const AboutInfoSection = () => {
       <div ref={successRef}
       className="flex w-full items-center justify-center gap-[150px] px-[150px] py-0">
        <div className="flex flex-col items-start gap-8 flex-1">
-        <h2 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-[32px] tracking-[0] leading-[48px]">
-          TASLAMADA ÜSTÜNLIK <br />
-            GAZANMAGYŇ SYRY BIZDE
-        </h2>
+        <h2 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-[32px] tracking-[0] leading-[48px]"dangerouslySetInnerHTML={{ __html: t('tagline') }}/>
+
+
+        
         <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-            Oguz han Innowasiýa Merkezinde biz ideýalary hakykata öwürýäris.
-            Toparymyz üstünliklere eýe bolan, ýokary tejribeli hünärmenlerden
-            ybarat. Olaryň çuňňur bilimleri we tejribeleri taslamaňy
-            ugrukdyrmakda hem-de maksatlaryna ýetmekde möhüm ähmiýete eýedir.
-            Programmadan başlap, önüme ýa-da batyrgaý täze pikire çenli biz
-            ideýalaryňy durmuşa geçirmek üçin zerur gurallary, serişdeleri we
-            goldawy üpjün edýäris.
+         {t('projectText')}
         </p>
 
        </div>

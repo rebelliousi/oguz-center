@@ -1,6 +1,7 @@
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import React from "react";
 import logo from '../../public/logo 1.svg'
+import { useTranslation } from "react-i18next";
 
 const contactItems = [
   {
@@ -17,15 +18,17 @@ const contactItems = [
   },
 ];
 
-// Menü öğelerine hedef id ekliyoruz
-const menuItems = [
-  { label: "Esasy", targetId: "hero" },
-  { label: "Täzelikler", targetId: "news" },
-  { label: "Biz barada", targetId: "biz-barada" },
-  { label: "Bölümler", targetId: "bolumler" },
-];
+
+
 
 export const FooterSection = () => {
+     const { t } = useTranslation();
+const menuItems = [
+  { label: t('navigation.main'), targetId: "hero" },
+  { label: t('navigation.news'), targetId: "news" },
+  { label: t('navigation.about'), targetId: "biz-barada" },
+  { label: t('navigation.departments'), targetId: "bolumler" },
+];
   const handleScroll = (id: string) => {
     const section = document.getElementById(id);
     section?.scrollIntoView({ behavior: "smooth" });
@@ -42,26 +45,26 @@ export const FooterSection = () => {
               src={logo}
             />
             <div className="text-gray-white text-[34px] tracking-[-0.68px] leading-[54.4px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
-              TITU
+              {t('brand')}
             </div>
           </div>
 
           <div className="inline-flex flex-col items-start gap-4">
             <div className="font-semibold text-gray-white text-[34px] tracking-[-0.68px] leading-[54.4px] [font-family:'Plus_Jakarta_Sans',Helvetica] whitespace-nowrap">
-              Biz barada
+              {t('navigation.about')}
             </div>
             <div className="inline-flex flex-col items-start gap-2">
-              <div className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-2xl tracking-[-0.48px] leading-[38.4px]">
-                Oguzhan ylmy-tehnologiyalar
-                <br />
-                merkezi
-              </div>
+              <div className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-2xl tracking-[-0.48px] leading-[38.4px]"  dangerouslySetInnerHTML={{
+    __html: t('centerName') 
+  }}/>
+               
+            
             </div>
           </div>
 
           <div className="inline-flex flex-col items-start gap-4">
             <div className="text-gray-white text-[34px] tracking-[-0.68px] leading-[54.4px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
-              Habarlaşmak
+              {t('navigation.contact')}
             </div>
             <div className="inline-flex flex-col items-start gap-2">
               {contactItems.map((item, index) => (
@@ -77,7 +80,7 @@ export const FooterSection = () => {
 
           <div className="inline-flex flex-col items-start gap-4">
             <div className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-gray-white text-[34px] tracking-[-0.68px] leading-[54.4px] whitespace-nowrap">
-              Menýu
+              {t('menu.main')}
             </div>
             <div className="inline-flex flex-col items-start gap-2">
               {menuItems.map((item, index) => (
@@ -94,7 +97,7 @@ export const FooterSection = () => {
         </div>
 
         <div className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-2xl tracking-[-0.48px] leading-[38.4px] whitespace-nowrap">
-          2025ý. Oguzhan ylmy-tehnologiyalar merkezi
+          2025ý. {t('centerName2')}
         </div>
       </div>
     </footer>

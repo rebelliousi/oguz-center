@@ -7,17 +7,20 @@ import { Badge } from "../components/badge";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import logo from "../../public/logo 1.svg";
 import i18n from "../i18n";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const navigationItems = [
-  { label: "Biz barada", targetId: "biz-barada" },
-  { label: "Bölümler", targetId: "bolumler" },
-  { label: "Habarlaşmak", targetId: "habarlasmak" },
-];
 export const HeroSection = () => {
+  const { t } = useTranslation();
+
+  const navigationItems = [
+    { label: t("navigation.about"), targetId: "biz-barada" },
+    { label: t("navigation.departments"), targetId: "bolumler" },
+    { label: t("navigation.contact"), targetId: "habarlasmak" },
+  ];
   const heroRef = useRef<HTMLDivElement>(null);
-  const dropdownRef=useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const languages = [
@@ -25,15 +28,18 @@ export const HeroSection = () => {
     { code: "ru", label: "RU" },
     { code: "en", label: "EN" },
   ];
-  useEffect(()=>{
-    const handleClickOutside=(event:MouseEvent)=>{
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-      setIsDropdownOpen(false)
-    }
-  }
-    document.addEventListener('click',handleClickOutside)
-    return()=>document.removeEventListener('click',handleClickOutside)
-  },[])
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     if (heroRef.current) {
@@ -83,7 +89,7 @@ export const HeroSection = () => {
       <header className="flex w-full h-20 items-center justify-between px-10 md:px-28 fixed top-0 left-0 z-50 backdrop-blur-md bg-white/60 shadow-sm">
         <div className="flex items-center gap-3">
           <img src={logo} alt="logo" className="w-12 h-12" />
-          <h1 className="text-2xl font-bold text-blue-700">TITU</h1>
+          <h1 className="text-2xl font-bold text-blue-700">{t('brand')}</h1>
         </div>
 
         <nav ref={dropdownRef} className="flex items-center gap-2">
@@ -115,7 +121,10 @@ export const HeroSection = () => {
             </Button>
 
             {isDropdownOpen && (
-              <div  id='lang-dropdown'className="absolute right-0 mt-2 bg-white shadow-lg rounded-md overflow-hidden z-50">
+              <div
+                id="lang-dropdown"
+                className="absolute right-0 mt-2 bg-white shadow-lg rounded-md overflow-hidden z-50"
+              >
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -143,16 +152,16 @@ export const HeroSection = () => {
         className="flex flex-col items-center space-y-6 justify-center text-center min-h-screen px-6 mt-20"
       >
         <div className="flex flex-col items-center gap-4 max-w-4xl">
-          <h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-b from-sky-400 to-blue-600 bg-clip-text text-transparent">
-            OGUZ HAN
+          <h1 className="text-5xl uppercase md:text-7xl font-extrabold bg-gradient-to-b from-sky-400 to-blue-600 bg-clip-text text-transparent">
+          {t('hero.titleLine1')}
           </h1>
-          <h2 className="text-4xl md:text-6xl font-extrabold text-gray-800">
-            YLMY-TEHNOLOGIÝALAR MERKEZI
+          <h2 className="text-4xl md:text-6xl  uppercase font-extrabold text-gray-800">
+           {t('hero.titleLine2')}
           </h2>
 
           <Badge className="bg-white/70 backdrop-blur-sm px-6 py-3 rounded-full border-none">
             <span className="text-gray-600 text-base md:text-lg font-semibold">
-              Pikirleriň iş ýüzünde janlanýan ýeri
+             {t('form.ideaDescription')}
             </span>
           </Badge>
         </div>
@@ -162,7 +171,7 @@ export const HeroSection = () => {
           className="h-auto px-2 md:px-10 py-10 md:py-5 rounded-xl bg-[#0066FF]  hover:bg-[#0052CC]  shadow-lg"
         >
           <span className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-gray-white text-lg md:text-xl lg:text-2xl text-center tracking-[0] leading-[28.8px] whitespace-nowrap">
-            Ideýaňyzy paýlaşyň
+            {t('heroCTA')}
           </span>
         </Button>
       </div>

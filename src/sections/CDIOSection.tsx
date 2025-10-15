@@ -2,10 +2,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useCDIO, type CDIOType } from "../hooks/useCDIO";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const CDIOSection = () => {
+      const { t } = useTranslation()
   const cdioRef = useRef<HTMLDivElement>(null);
   const { data } = useCDIO();
   useEffect(() => {
@@ -34,10 +36,7 @@ export const CDIOSection = () => {
           CDIO
         </h2>
         <p className="w-[1200px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-          Taslamalaryň üstünlik gazanmagy üçin diňe ideýa ýetmez. Olar
-          bitewilikde işlenmeli, tertipleşdirilmeli we ädimme-ädim durmuşa
-          geçirilmeli. Şu maksat bilen Oguz han Innowasiýa Merkezi CDIO usulyny
-          ulanýar.
+       {t('cdio')}
         </p>
       </div>
 

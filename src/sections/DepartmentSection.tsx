@@ -3,10 +3,12 @@ import _ScrollTrigger from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useDepartments } from "../hooks/useDepartments";
 import { Card, CardContent } from "../components/card";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(_ScrollTrigger);
 
 export const DepartmentSection = () => {
+     const { t } = useTranslation()
   const departmentRef = useRef<HTMLDivElement>(null);
   const { data } = useDepartments();
 
@@ -39,11 +41,10 @@ export const DepartmentSection = () => {
     >
       <div className="flex flex-col w-full items-start gap-8 px-[150px] py-0">
         <h2 className="font-extrabold text-dark-blue-gray text-[44px] tracking-[0] leading-[52.8px] [font-family:'Plus_Jakarta_Sans',Helvetica]">
-          BÖLÜMLER
+          {t('navigation.departments')}
         </h2>
         <p className="w-[1200px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
-          Oguzhan ylmy-tehnologiýalar merkezi öz içinde 16 sany bölümleri
-          jemleýär. Olardan iň ululary:
+         {t('departmentText')}
         </p>
       </div>
 

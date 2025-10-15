@@ -4,6 +4,7 @@ const tm = {
   heroCTA: "Ideýaňyzy paýlaşyň",
   brand: "OYTM",
   full: "Doly",
+  company:'HYZMATDAŞLAR',
   navigation: {
     about: "Biz barada",
     contact: "Habarlaşmak",

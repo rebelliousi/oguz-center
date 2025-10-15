@@ -4,6 +4,7 @@ const en = {
   heroCTA: "Share your idea",
   brand: "OSTC",
   full: "Full",
+  company:'ASSOCIATES',
   navigation: {
     about: "About us",
     contact: "Contact",

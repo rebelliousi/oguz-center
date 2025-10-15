@@ -5,7 +5,7 @@ import { DepartmentSection } from "./sections/DepartmentSection"
 import { FooterSection } from "./sections/FooterSection"
 import { HeroSection } from "./sections/HeroSection"
 import { NewsSection } from "./sections/NewsSection"
-import { PartnersSection } from "./sections/PartnersSection"
+import { PartnersSection } from "./sections/CompaniesSection"
 
 export const App =()=>{
   return(

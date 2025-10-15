@@ -5,6 +5,7 @@ import image2 from '../../public/dsb.svg'
 import image3 from '../../public/tstp.svg'
 import image4 from '../../public/icon.svg'
 import { useEffect, useRef } from "react";
+import { useCompanies } from "../hooks/useCompanies";
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -39,6 +40,7 @@ const partners = [
 
 export const PartnersSection=()=>{
     const partnersRef=useRef<HTMLDivElement>(null)
+    const {data}=useCompanies()
 
     useEffect(()=>{
      const ctx=gsap.context(()=>{
@@ -65,11 +67,11 @@ export const PartnersSection=()=>{
             </h2>
 
             <div className="flex items-center justify-between w-full">
-                {partners.map((partner,index)=>(
+                {data?.map((comp,index)=>(
                     <div key={index} className="partner-item inline-flex flex-col items-center justify-center gap-4">
-                     <img src={partner.logo} alt={partner.name} className={`${partner.width} ${partner.height} object-cover`} />
+                     <img src={comp.icon} alt={comp.name} className='object-cover w-[100px] h-auto'/>
                     <p className="text-light-themegraydark-blue-grey text-2xl text-center tracking-[-0.48px] leading-[28.8px] [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
-                        {partner.name}
+                        {comp.name}
                     </p>
                     </div>
                 ))}

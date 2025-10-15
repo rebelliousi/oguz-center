@@ -4,6 +4,7 @@ const ru = {
   heroCTA: "Поделитесь своей идеей",
   brand: "ЦНТО",
   full: "Полный",
+  company:'КОМПАНЬОНЫ',
   navigation: {
     about: "О нас",
     contact: "Контакты",

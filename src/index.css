@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@import 'swiper/css';
 
 @layer components{
   .all-\[unset\]{
@@ -264,4 +264,27 @@
 .scrollbar-hide {
   -ms-overflow-style: none;  
   scrollbar-width: none;  
+}
+
+
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #374151; 
+  transition: all 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #111827; 
+}
+
+.swiper-pagination-bullet {
+  background: #9ca3af;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #374151; 
+  opacity: 1;
 }

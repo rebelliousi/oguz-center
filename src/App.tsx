@@ -20,7 +20,7 @@ const SectionLoader = () => (
 )
 
 const HomePage = () => (
-  <div className="space-y-16 sm:space-y-20 md:space-y-24 lg:space-y-32">
+  <div className="space-y-16 sm:space-y-12 md:space-y-24 lg:space-y-32">
     <HeroSection/>
     <Suspense fallback={<SectionLoader />}>
       <NewsSection/>

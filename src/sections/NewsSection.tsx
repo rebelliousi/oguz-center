@@ -49,7 +49,7 @@ export const NewsSection = () => {
     <div
       id="news"
       ref={newsRef}
-      className="flex flex-col w-full items-start justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-14 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-8 sm:py-10 md:py-12 lg:py-16"
+      className="flex flex-col w-full items-start justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-14 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px]  md:py-12 lg:py-16"
     >
       {/* Header Section */}
       <div className="flex items-center justify-between w-full gap-4">

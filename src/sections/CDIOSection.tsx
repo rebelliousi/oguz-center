@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useCDIO, type CDIOType } from "../hooks/useCDIO";
 import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,24 +72,21 @@ export const CDIOSection = () => {
         </p>
       </div>
 
-      {/* Mobile Swiper (< lg) */}
+      {/* Mobile Swiper (< lg) - Shows 2 cards, slides 1 by 1 */}
       <div className="lg:hidden w-full px-4">
         <Swiper
-          modules={[Pagination, Navigation]}
+          modules={[Autoplay]}
           spaceBetween={16}
           slidesPerView={2}
-          grid={{
-            rows: 1,
-            fill: 'row'
+          slidesPerGroup={1}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-          }}
+          loop={true}
+          speed={800}
           className="cdio-swiper"
-          style={{
-            paddingBottom: '40px'
-          }}
         >
           {data?.map((step: CDIOType, index: number) => (
             <SwiperSlide key={index}>

@@ -71,13 +71,13 @@ export const AboutInfoSection = () => {
           <h2 className="w-fit font-extrabold text-dark-blue-gray text-xl lg:text-4xl xl:text-[44px] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
             {about?.title}
           </h2>
-          <p className="w-full [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed">
+          <p className="w-full [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-[14px] lg:text-xl xl:text-2xl tracking-tight leading-relaxed">
             {t('aboutText')}
           </p>
         </div>
 
         {/* Video Player */}
-        <div className="relative w-full lg:max-w-none lg:w-[500px] xl:w-[622px] h-[201px] lg:h-[350px] bg-[#d5d5d5] rounded-lg overflow-hidden flex items-center justify-center flex-shrink-0">
+        <div className="relative w-full h-[300px] lg:max-w-none lg:w-[500px] xl:w-[620px]  lg:h-[350px] bg-[#d5d5d5] rounded-2xl overflow-hidden flex items-center justify-center flex-shrink-0">
           {!isVideoPlaying ? (
             <div className="relative w-full h-full">
               <img 
@@ -118,7 +118,7 @@ export const AboutInfoSection = () => {
             dangerouslySetInnerHTML={{ __html: t('tagline') }}
           />
           
-          <p className="w-full [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed">
+          <p className="w-full [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-[14px] lg:text-xl xl:text-2xl tracking-tight leading-relaxed">
             {t('projectText')}
           </p>
         </div>

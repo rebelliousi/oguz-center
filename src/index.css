@@ -288,3 +288,13 @@
   background: #374151; 
   opacity: 1;
 }
+
+
+.cdio-swiper .swiper-pagination-bullet {
+  background: #0066ff;
+  opacity: 0.3;
+}
+
+.cdio-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+}

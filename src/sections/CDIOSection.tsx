@@ -3,6 +3,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useCDIO, type CDIOType } from "../hooks/useCDIO";
 import { useTranslation } from "react-i18next";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,10 +33,34 @@ export const CDIOSection = () => {
     return () => ctx.revert();
   }, [data]);
 
+  // Mobile Swiper Card Component
+  const CDIOCard = ({ step }: { step: CDIOType }) => (
+    <div className="cdio-step flex flex-col items-start gap-4">
+      {/* Icon */}
+      <div className="w-full aspect-square">
+        <img
+          className="w-full h-full object-cover rounded-lg"
+          src={step.icon}
+          alt={step.name}
+        />
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col items-start gap-3 w-full">
+        <h3 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-dark-blue-gray text-lg tracking-tight leading-tight">
+          {step.name}
+        </h3>
+        <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-sm tracking-tight leading-relaxed">
+          {step.description}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <div 
       ref={cdioRef} 
-      className="flex flex-col items-start gap-10 sm:gap-12 md:gap-16 lg:gap-20 w-full"
+      className="flex flex-col items-start gap-10 lg:gap-20 w-full"
     >
       {/* Header Section */}
       <div className="flex flex-col w-full items-start gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-0">
@@ -45,15 +72,42 @@ export const CDIOSection = () => {
         </p>
       </div>
 
-      {/* CDIO Steps Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-20 2xl:gap-[100px] px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-0 w-full">
+      {/* Mobile Swiper (< lg) */}
+      <div className="lg:hidden w-full px-4">
+        <Swiper
+          modules={[Pagination, Navigation]}
+          spaceBetween={16}
+          slidesPerView={2}
+          grid={{
+            rows: 1,
+            fill: 'row'
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+          }}
+          className="cdio-swiper"
+          style={{
+            paddingBottom: '40px'
+          }}
+        >
+          {data?.map((step: CDIOType, index: number) => (
+            <SwiperSlide key={index}>
+              <CDIOCard step={step} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
+      {/* Desktop Grid (>= lg) */}
+      <div className="hidden lg:grid grid-cols-4 gap-16 xl:gap-20 2xl:gap-[100px] px-20 xl:px-32 2xl:px-[150px] py-0 w-full">
         {data?.map((step: CDIOType, index: number) => (
           <div
             key={index}
-            className="cdio-step flex flex-col items-start gap-4 sm:gap-5 md:gap-6 lg:gap-7"
+            className="cdio-step flex flex-col items-start gap-7"
           >
             {/* Icon */}
-            <div className="w-full aspect-square max-w-[300px] mx-auto sm:mx-0">
+            <div className="w-full aspect-square max-w-[300px]">
               <img
                 className="w-full h-full object-cover rounded-lg"
                 src={step.icon}
@@ -62,13 +116,13 @@ export const CDIOSection = () => {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col items-start gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full">
+            <div className="flex flex-col items-start gap-6 w-full">
               <div className="inline-flex flex-col items-start gap-2">
-                <h3 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-dark-blue-gray text-xl sm:text-2xl md:text-[28px] lg:text-[32px] tracking-tight leading-tight">
+                <h3 className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-dark-blue-gray text-[32px] tracking-tight leading-tight">
                   {step.name}
                 </h3>
               </div>
-              <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-sm sm:text-base md:text-lg lg:text-xl tracking-tight leading-relaxed">
+              <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-xl tracking-tight leading-relaxed">
                 {step.description}
               </p>
             </div>

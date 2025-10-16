@@ -57,8 +57,8 @@ export const NewsSection = () => {
           {t('navigation.news')}
         </h2>
         
-        {/* Navigation Buttons - Hidden on mobile when scrolling is touch-based */}
-        <div className="hidden sm:inline-flex items-center gap-3 md:gap-4 lg:gap-6">
+        {/* Navigation Buttons - Now visible on all screen sizes */}
+        <div className="inline-flex items-center gap-3 md:gap-4 lg:gap-6">
           <Button
             variant="ghost"
             size="icon"
@@ -125,17 +125,6 @@ export const NewsSection = () => {
               </div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-
-      {/* Mobile Scroll Indicator */}
-      <div className="sm:hidden flex items-center justify-center w-full gap-2 pt-2">
-        {data?.map((_, index) => (
-          <div
-            key={index}
-            className="w-2 h-2 rounded-full bg-gray-300"
-            aria-hidden="true"
-          />
         ))}
       </div>
     </div>

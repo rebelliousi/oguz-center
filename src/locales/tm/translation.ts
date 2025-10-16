@@ -36,7 +36,7 @@ const tm = {
     verifyFailed: "Emaili tassyklamak başarsyz boldy. Iňlisini gaýtadan synanyşyň.",
   },
   menu: {
-    main: "Menyu",
+    main: "Menýu",
   },
   centerName: '"Oguz han" ylmy-tehnologiyalar <br/> merkezi',
   centerName2: '"Oguz han" ylmy-tehnologiyalar  merkezi',

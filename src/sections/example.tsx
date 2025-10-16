@@ -34,38 +34,25 @@ export const FooterSection = () => {
   };
 
   return (
-    <footer className="flex w-full items-start justify-center gap-20 pt-[60px] pb-6 px-4 lg:px-20 xl:px-32 2xl:px-[150px] bg-[#112d80]">
-      <div className="flex flex-col items-center gap-[60px] flex-1">
-        {/* Mobile: Vertical Stack, Desktop: Horizontal */}
+    <footer className="flex items-start justify-center gap-20 pt-[60px] pb-6 px-4 lg:px-20 xl:px-32 2xl:px-[150px] w-full bg-[#112d80]">
+      <div className="flex flex-col items-center gap-[60px] flex-1 w-full">
+        {/* Main Content */}
         <div className="flex flex-col lg:flex-row items-start lg:justify-between gap-10 w-full">
-          {/* Logo Section - Mobile: Left aligned, Desktop: Same */}
-          <div className="inline-flex flex-col items-start lg:items-center lg:justify-center gap-4 w-full lg:w-auto">
+          {/* Logo Section - Mobile: Centered, Desktop: Left aligned */}
+          <div className="inline-flex flex-col items-center lg:items-start justify-center gap-4 w-full lg:w-auto">
             <img
               className="w-20 h-20 lg:w-[120px] lg:h-[120px] object-cover"
               alt="Logo"
               src={logo}
             />
-            <div className="text-gray-white text-xl lg:text-[34px] px-3 tracking-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
+            <div className="text-gray-white text-xl lg:text-[34px] tracking-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold text-center lg:text-left lg:whitespace-nowrap">
               {t('brand')}
             </div>
           </div>
 
-          {/* Mobile: All sections stacked vertically, Desktop: Horizontal */}
+          {/* Mobile: Vertical Stack - Desktop: Horizontal */}
           <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-12 w-full lg:w-auto lg:flex-1">
-            {/* About Section - MOVED TO FIRST */}
-            <div className="inline-flex flex-col items-start gap-4 w-full lg:w-auto lg:flex-1">
-              <div className="font-semibold text-gray-white text-xl lg:text-[34px] tracking-tight [font-family:'Plus_Jakarta_Sans',Helvetica] whitespace-nowrap">
-                {t('navigation.about')}
-              </div>
-              <div className="inline-flex flex-col items-start gap-2">
-                <div 
-                  className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: t('centerName') }}
-                />
-              </div>
-            </div>
-
-            {/* Contact Section - MOVED TO SECOND */}
+            {/* Contact Section */}
             <div className="inline-flex flex-col items-start gap-4 w-full lg:w-auto lg:flex-1">
               <div className="text-gray-white text-xl lg:text-[34px] tracking-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
                 {t('navigation.contact')}
@@ -79,6 +66,19 @@ export const FooterSection = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* About Section */}
+            <div className="inline-flex flex-col items-start gap-4 w-full lg:w-auto lg:flex-1">
+              <div className="font-semibold text-gray-white text-xl lg:text-[34px] tracking-tight [font-family:'Plus_Jakarta_Sans',Helvetica] whitespace-nowrap">
+                {t('navigation.about')}
+              </div>
+              <div className="inline-flex flex-col items-start gap-2">
+                <div 
+                  className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t('centerName') }}
+                />
               </div>
             </div>
 
@@ -102,8 +102,8 @@ export const FooterSection = () => {
           </div>
         </div>
 
-        {/* Copyright - Centered */}
-        <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed w-full text-center">
+        {/* Copyright */}
+        <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-gray-white text-sm lg:text-xl xl:text-2xl tracking-tight leading-relaxed text-center lg:text-left w-full whitespace-nowrap">
           2025ý. {t('centerName2')}
         </p>
       </div>

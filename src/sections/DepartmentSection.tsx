@@ -4,6 +4,9 @@ import { useEffect, useRef } from "react";
 import { useDepartments } from "../hooks/useDepartments";
 import { Card, CardContent } from "../components/card";
 import { useTranslation } from "react-i18next";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+
 
 gsap.registerPlugin(_ScrollTrigger);
 
@@ -33,6 +36,62 @@ export const DepartmentSection = () => {
     return () => ctx.revert();
   }, [data]);
 
+  // Mobile Department Card Component
+  const MobileDepartmentCard = ({ dept }: { dept: any }) => (
+    <Card 
+      className="department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 w-[320px] h-[206px]"
+    >
+      <CardContent className="flex flex-col items-start gap-3 p-4 h-full">
+        {/* Icon */}
+        <div className="flex items-center justify-center w-10 h-10">
+          <img 
+            className="w-full h-full object-contain" 
+            src={dept.icon} 
+            alt={dept.name} 
+          />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col items-start gap-2 w-full flex-1 overflow-hidden">
+          <h3 className="font-semibold text-dark-blue-gray text-base tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] line-clamp-2">
+            {dept.name}
+          </h3>
+          <p className="text-medium-new-gray text-sm tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal line-clamp-3">
+            {dept.description}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  // Desktop Department Card Component
+  const DesktopDepartmentCard = ({ dept }: { dept: any }) => (
+    <Card 
+      className="department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 h-full"
+    >
+      <CardContent className="flex flex-col items-start gap-7 p-6 h-full">
+        {/* Icon */}
+        <div className="flex items-center justify-center w-12 h-12">
+          <img 
+            className="w-full h-full object-contain" 
+            src={dept.icon} 
+            alt={dept.name} 
+          />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col items-start gap-6 w-full flex-1">
+          <h3 className="font-semibold text-dark-blue-gray text-2xl lg:text-[length:var(--h3-semib-font-size)] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
+            {dept.name}
+          </h3>
+          <p className="text-medium-new-gray text-xl xl:text-2xl tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal">
+            {dept.description}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div
       id="bolumler"
@@ -49,34 +108,33 @@ export const DepartmentSection = () => {
         </p>
       </div>
 
-      {/* Departments Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 md:gap-10 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-0 w-full">
-        {data?.map((dept, index) => (
-          <Card 
-            key={index} 
-            className="department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 h-full"
-          >
-            <CardContent className="flex flex-col items-start gap-4 sm:gap-5 md:gap-6 lg:gap-7 p-4 sm:p-5 md:p-6 h-full">
-              {/* Icon */}
-              <div className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12">
-                <img 
-                  className="w-full h-full object-contain" 
-                  src={dept.icon} 
-                  alt={dept.name} 
-                />
-              </div>
+      {/* Mobile Swiper (< lg) - With Peek Effect */}
+      <div className="lg:hidden w-full px-4">
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={16}
+          slidesPerView="auto"
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          loop={true}
+          speed={800}
+          className="department-swiper"
+        >
+          {data?.map((dept, index) => (
+            <SwiperSlide key={index} style={{ width: 'auto' }}>
+              <MobileDepartmentCard dept={dept} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
-              {/* Content */}
-              <div className="flex flex-col items-start gap-3 sm:gap-4 md:gap-5 lg:gap-6 w-full flex-1">
-                <h3 className="font-semibold text-dark-blue-gray text-lg sm:text-xl md:text-2xl lg:text-[length:var(--h3-semib-font-size)] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
-                  {dept.name}
-                </h3>
-                <p className="text-medium-new-gray text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal">
-                  {dept.description}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+      {/* Desktop Grid (>= lg) */}
+      <div className="hidden lg:grid grid-cols-3 xl:grid-cols-4 gap-10 px-20 xl:px-32 2xl:px-[150px] py-0 w-full">
+        {data?.map((dept, index) => (
+          <DesktopDepartmentCard key={index} dept={dept} />
         ))}
       </div>
     </div>

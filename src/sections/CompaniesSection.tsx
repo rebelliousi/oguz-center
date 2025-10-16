@@ -3,6 +3,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useCompanies } from "../hooks/useCompanies";
 import { useTranslation } from "react-i18next";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -61,7 +64,6 @@ export const PartnersSection = () => {
             }
         });
 
-        // Recalculate on window resize
         const handleResize = () => {
             animation.kill();
             const newGap = window.innerWidth < 640 ? 40 : window.innerWidth < 1024 ? 60 : 80;
@@ -90,6 +92,22 @@ export const PartnersSection = () => {
         };
     }, [showSlider, data]);
 
+    // Mobile Company Card
+    const MobileCompanyCard = ({ comp }: { comp: any }) => (
+        <div className="flex flex-col items-center justify-center gap-2 transition-all duration-300 hover:scale-105">
+            <div className="w-16 h-16 flex items-center justify-center">
+                <img 
+                    src={comp.icon} 
+                    alt={comp.name} 
+                    className='object-contain w-full h-auto max-h-full'
+                />
+            </div>
+            <p className="text-light-themegraydark-blue-grey text-sm text-center tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
+                {comp.name}
+            </p>
+        </div>
+    );
+
     return (
         <div 
             ref={partnersRef} 
@@ -100,56 +118,82 @@ export const PartnersSection = () => {
                 {t('company')}
             </h2>
 
-            {showSlider ? (
-                // Infinite Slider Mode (> 4 companies)
-                <div className="w-full overflow-hidden relative">
-                    <div 
-                        ref={sliderRef}
-                        className="flex items-center gap-10 sm:gap-12 md:gap-16 lg:gap-20"
-                        style={{ width: 'max-content' }}
-                    >
-                        {infiniteItems?.map((comp, index) => (
+            {/* Mobile Swiper (< lg) */}
+            <div className="lg:hidden w-full">
+                <Swiper
+                    modules={[Autoplay]}
+                    spaceBetween={16}
+                    slidesPerView={3}
+                    slidesPerGroup={1}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    loop={true}
+                    speed={800}
+                    className="w-full"
+                >
+                    {data?.map((comp, index) => (
+                        <SwiperSlide key={index}>
+                            <MobileCompanyCard comp={comp} />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+
+            {/* Desktop View (>= lg) */}
+            <div className="hidden lg:block w-full">
+                {showSlider ? (
+                    // Desktop Infinite Slider Mode (> 4 companies)
+                    <div className="w-full overflow-hidden relative">
+                        <div 
+                            ref={sliderRef}
+                            className="flex items-center gap-20"
+                            style={{ width: 'max-content' }}
+                        >
+                            {infiniteItems?.map((comp, index) => (
+                                <div 
+                                    key={index} 
+                                    className="slider-item inline-flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:scale-105 flex-shrink-0"
+                                    style={{ width: '140px' }}
+                                >
+                                    <div className="w-[100px] h-[100px] flex items-center justify-center">
+                                        <img 
+                                            src={comp.icon} 
+                                            alt={comp.name} 
+                                            className='object-contain w-full h-auto max-h-full'
+                                        />
+                                    </div>
+                                    <p className="text-light-themegraydark-blue-grey text-2xl text-center tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
+                                        {comp.name}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    // Desktop Static Grid Mode (<= 4 companies)
+                    <div className="flex flex-wrap items-center justify-between w-full gap-y-12">
+                        {data?.map((comp, index) => (
                             <div 
                                 key={index} 
-                                className="slider-item inline-flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 transition-all duration-300 hover:scale-105 flex-shrink-0"
-                                style={{ width: '140px' }}
+                                className="inline-flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:scale-105"
                             >
-                                <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-[100px] lg:h-[100px] flex items-center justify-center">
+                                <div className="w-[100px] h-[100px] flex items-center justify-center">
                                     <img 
                                         src={comp.icon} 
                                         alt={comp.name} 
                                         className='object-contain w-full h-auto max-h-full'
                                     />
                                 </div>
-                                <p className="text-light-themegraydark-blue-grey text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-center tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
+                                <p className="text-light-themegraydark-blue-grey text-2xl text-center tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
                                     {comp.name}
                                 </p>
                             </div>
                         ))}
                     </div>
-                </div>
-            ) : (
-                // Static Grid Mode (<= 4 companies)
-                <div className="flex flex-wrap items-center justify-between w-full gap-y-8 sm:gap-y-10 md:gap-y-12">
-                    {data?.map((comp, index) => (
-                        <div 
-                            key={index} 
-                            className="inline-flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 transition-all duration-300 hover:scale-105"
-                        >
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-[100px] lg:h-[100px] flex items-center justify-center">
-                                <img 
-                                    src={comp.icon} 
-                                    alt={comp.name} 
-                                    className='object-contain w-full h-auto max-h-full'
-                                />
-                            </div>
-                            <p className="text-light-themegraydark-blue-grey text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-center tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] font-semibold whitespace-nowrap">
-                                {comp.name}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };

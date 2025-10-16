@@ -56,7 +56,8 @@ export const ContactSection = () => {
           start: "top 80%",
           toggleActions: "play none none reverse",
         },
-        x: -100,
+        x: window.innerWidth >= 1024 ? -100 : 0,
+        y: window.innerWidth < 1024 ? -50 : 0,
         opacity: 0,
         duration: 1,
         ease: "power3.out",
@@ -70,7 +71,8 @@ export const ContactSection = () => {
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
-          x: 100,
+          x: window.innerWidth >= 1024 ? 100 : 0,
+          y: window.innerWidth < 1024 ? 50 : 0,
           opacity: 0,
           duration: 1,
           stagger: 0.2,
@@ -238,14 +240,14 @@ export const ContactSection = () => {
     <section
       id="habarlasmak"
       ref={sectionRef}
-      className="flex items-start gap-20 p-[150px] w-full bg-gray-white"
+      className="flex flex-col lg:flex-row items-start gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-20 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-8 sm:py-10 md:py-12 lg:py-16 xl:py-20 w-full bg-gray-white"
     >
       <Modal
         isOpen={showVerification}
         onclose={handleCloseVerification}
       >
-        <div className="flex flex-col gap-3">
-          <h3 className="w-full font-semibold">
+        <div className="flex flex-col gap-3 p-4">
+          <h3 className="w-full font-semibold text-lg sm:text-xl">
             {t("form.enterVerificationCode")}
           </h3>
           <input
@@ -257,7 +259,7 @@ export const ContactSection = () => {
                 handleVerification();
               }
             }}
-            className="border p-2 rounded w-full focus:outline-none"
+            className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder={t("form.verificationCode")}
             aria-label={t("form.verificationCode")}
             disabled={isVerifying}
@@ -265,43 +267,57 @@ export const ContactSection = () => {
           <Button
             onClick={handleVerification}
             disabled={isVerifying || !verificationCode.trim()}
-            className="mt-2 bg-blue-500 hover:bg-blue-600 text-white"
+            className="mt-2 bg-blue-500 hover:bg-blue-600 text-white p-3"
           >
             {isVerifying ? "Verifying..." : t("form.verifyEmail")}
           </Button>
           {!isVerifying && verificationCode && isError && (
-            <p className="text-red-500 text-center mt-2" role="alert">
+            <p className="text-red-500 text-center mt-2 text-sm" role="alert">
               ❌ {error?.message || "Error verifying. Try again."}
             </p>
           )}
           {verifySuccess && (
-            <p className="text-green-600 text-center" role="alert">
+            <p className="text-green-600 text-center text-sm" role="alert">
               ✅ Correct! Email verified.
             </p>
           )}
         </div>
       </Modal>
 
-      <div className="flex items-start gap-20 flex-1">
-        <div ref={formRef} className="flex flex-col items-start gap-8 flex-1">
-          <h2 className="w-fit [font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-[44px] text-center tracking-[0] leading-[52.8px] whitespace-nowrap">
+      {/* Image - Shows first on mobile, last on desktop */}
+      <div 
+        ref={illustrationRef} 
+        className="w-full lg:w-[500px] xl:w-[600px] 2xl:w-[693px] flex-shrink-0 order-1 lg:order-2"
+      >
+        <img 
+          src={image} 
+          alt="Contact illustration" 
+          className="w-full h-auto max-w-md mx-auto lg:max-w-full"
+        />
+      </div>
+
+      {/* Form Section - Shows second on mobile, first on desktop */}
+      <div className="flex flex-col items-start gap-8 sm:gap-10 md:gap-12 lg:gap-16 xl:gap-20 flex-1 w-full order-2 lg:order-1">
+        <div ref={formRef} className="flex flex-col items-start gap-6 sm:gap-8 w-full">
+          <h2 className="w-full lg:w-fit [font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-dark-blue-gray text-2xl sm:text-3xl md:text-4xl lg:text-[44px] tracking-tight leading-tight">
             {t("innovation")}
           </h2>
 
-          <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-2xl tracking-[-0.48px] leading-[38.4px]">
+          <p className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-normal text-dark-blue-gray text-base sm:text-lg md:text-xl lg:text-2xl tracking-tight leading-relaxed">
             {t("contactText")}
           </p>
 
           {submitSuccess && (
-            <div className="w-full p-4 bg-green-100 border border-green-400 text-green-700 rounded" role="alert">
+            <div className="w-full p-3 sm:p-4 bg-green-100 border border-green-400 text-green-700 rounded text-sm sm:text-base" role="alert">
               ✅ {t("form.submitSuccess") || "Form submitted successfully! Please check your email for verification."}
             </div>
           )}
 
-          <div className="flex flex-col items-end justify-center gap-8 w-full">
-            <div className="flex flex-col items-start gap-4 w-full">
-              <div className="flex items-start gap-4 w-full">
-                <div className="flex-1">
+          <div className="flex flex-col items-end justify-center gap-6 sm:gap-8 w-full">
+            <div className="flex flex-col items-start gap-4 sm:gap-6 w-full">
+              {/* Name and Phone Row */}
+              <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.name")}
                     value={formData.full_name}
@@ -309,10 +325,10 @@ export const ContactSection = () => {
                     aria-label={t("form.name")}
                   />
                   {formErrors.full_name && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.full_name}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.full_name}</p>
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.phone")}
                     value={formData.phone_number}
@@ -320,13 +336,14 @@ export const ContactSection = () => {
                     aria-label={t("form.phone")}
                   />
                   {formErrors.phone_number && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.phone_number}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.phone_number}</p>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 w-full">
-                <div className="flex-1">
+              {/* Email and File Row */}
+              <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.email")}
                     value={formData.gmail}
@@ -334,10 +351,10 @@ export const ContactSection = () => {
                     aria-label={t("form.email")}
                   />
                   {formErrors.gmail && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.gmail}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.gmail}</p>
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.file")}
                     type="file"
@@ -346,13 +363,14 @@ export const ContactSection = () => {
                     aria-label={t("form.file")}
                   />
                   {formErrors.file && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.file}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.file}</p>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 w-full">
-                <div className="flex-1">
+              {/* About and Description Row */}
+              <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.about")}
                     type="textarea"
@@ -361,10 +379,10 @@ export const ContactSection = () => {
                     aria-label={t("form.about")}
                   />
                   {formErrors.about_you && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.about_you}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.about_you}</p>
                   )}
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 w-full">
                   <FormField
                     label={t("form.ideaDescription")}
                     type="textarea"
@@ -373,28 +391,23 @@ export const ContactSection = () => {
                     aria-label={t("form.ideaDescription")}
                   />
                   {formErrors.description && (
-                    <p className="text-red-500 text-sm mt-1" role="alert">{formErrors.description}</p>
+                    <p className="text-red-500 text-xs sm:text-sm mt-1" role="alert">{formErrors.description}</p>
                   )}
                 </div>
               </div>
             </div>
 
+            {/* Submit Button */}
             <Button
-              className="h-auto p-6 w-full rounded-lg bg-blue-500 hover:bg-blue-600"
+              className="h-auto p-4 sm:p-5 md:p-6 w-full rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors"
               onClick={handleSubmit}
               disabled={isPending}
               aria-label={t("form.submit")}
             >
-              <span className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-light-themegraywhite text-xl text-center tracking-[0] leading-[24.0px] whitespace-nowrap">
+              <span className="[font-family:'Plus_Jakarta_Sans',Helvetica] font-extrabold text-light-themegraywhite text-base sm:text-lg md:text-xl text-center tracking-[0] leading-tight">
                 {isPending ? "Ugradylýar..." : t("form.submit")}
               </span>
             </Button>
-          </div>
-        </div>
-
-        <div ref={illustrationRef} className="w-[693px] flex-shrink-0">
-          <div className="">
-            <img src={image} alt="Contact illustration" />
           </div>
         </div>
       </div>

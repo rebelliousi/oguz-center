@@ -3,7 +3,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import { useNews } from "../hooks/useNews";
 import { Button } from "../components/button";
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRight, ChevronRightIcon } from "lucide-react";
+import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Card, CardContent } from "../components/card";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 gsap.registerPlugin(ScrollTrigger);
 
 export const NewsSection = () => {
-      const { t } = useTranslation();
+  const { t } = useTranslation();
   const newsRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { data } = useNews();
@@ -33,81 +33,109 @@ export const NewsSection = () => {
       });
     });
     return () => ctx.revert();
-  }, []);
+  }, [data]);
 
   const scrollLeft = () => {
-    scrollContainerRef.current?.scrollBy({ left: -400, behavior: "smooth" });
+    const scrollAmount = window.innerWidth < 640 ? -300 : window.innerWidth < 1024 ? -350 : -400;
+    scrollContainerRef.current?.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    scrollContainerRef.current?.scrollBy({ left: 400, behavior: "smooth" });
+    const scrollAmount = window.innerWidth < 640 ? 300 : window.innerWidth < 1024 ? 350 : 400;
+    scrollContainerRef.current?.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
   return (
     <div
       id="news"
       ref={newsRef}
-      className="flex flex-col w-full item-start justify-center gap-14 px-[150px] py-0"
+      className="flex flex-col w-full items-start justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-14 px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 2xl:px-[150px] py-8 sm:py-10 md:py-12 lg:py-16"
     >
-      <div className="flex items-center justify-between w-full">
-        <h2 className="font-extrabold text-dark-blue-gray text-[44px] text-center tracking-[0] leading-[52.8px] [font-family:'Plus_Jakarta_Sans',Helvetica] whitespace-nowrap">
-          TÄZELIKLER
+      {/* Header Section */}
+      <div className="flex items-center justify-between w-full gap-4">
+        <h2 className="font-extrabold text-dark-blue-gray text-2xl sm:text-3xl md:text-4xl lg:text-[44px] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
+          {t('navigation.news')}
         </h2>
-        <div className="inline-flex items-center gap-6">
+        
+        {/* Navigation Buttons - Hidden on mobile when scrolling is touch-based */}
+        <div className="hidden sm:inline-flex items-center gap-3 md:gap-4 lg:gap-6">
           <Button
             variant="ghost"
             size="icon"
-            className="h-auto p-2 bg-lighter-gray rounded-lg hover:bg-light-gray"
+            className="h-auto p-2 bg-lighter-gray rounded-lg hover:bg-light-gray transition-colors"
             onClick={scrollLeft}
+            aria-label="Scroll left"
           >
-            <ChevronLeftIcon className="w-6 h-6 " />
+            <ChevronLeftIcon className="w-5 h-5 md:w-6 md:h-6" />
           </Button>
           <Button
             variant="ghost"
             size="icon"
-            className="h-auto p-2 bg-dark-blue-gray rounded-lg hover:bg-dark-blue-gray/90"
+            className="h-auto p-2 bg-dark-blue-gray rounded-lg hover:bg-dark-blue-gray/90 transition-colors"
             onClick={scrollRight}
+            aria-label="Scroll right"
           >
-            <ChevronRightIcon  className="w-6 h-6 text-white"/>
+            <ChevronRightIcon className="w-5 h-5 md:w-6 md:h-6 text-white" />
           </Button>
         </div>
       </div>
 
-      {/* Container */}
-
+      {/* News Cards Container */}
       <div
         ref={scrollContainerRef}
-        className="flex items-center gap-10 w-full overflow-x-auto scrollbar-hide"
+        className="flex items-stretch gap-4 sm:gap-6 md:gap-8 lg:gap-10 w-full overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {data?.map((item, index) => (
           <Card
             key={index}
-            className="news-card flex-shrink-0 w-[600px] border-[#d6dce6]"
+            className="news-card flex-shrink-0 w-[280px] sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[600px] border-[#d6dce6] shadow-sm hover:shadow-md transition-shadow duration-300"
           >
-            <CardContent className="flex items-center gap-6 p-4">
-              <div className="w-[250px] h-[250px] bg-[#dddddd] rounded-lg flex-shrink-0"/>
-                <div className="flex flex-col items-start gap-4 flex-1">
-                  <h3 className="font-h5-semib font-[number:var(--h5-semib-font-weight)] text-dark-blue-gray text-[length:var(--h5-semib-font-size)] tracking-[var(--h5-semib-letter-spacing)] leading-[var(--h5-semib-line-height)] [font-style:var(--h5-semib-font-style)]">
-                    {item.title}
-                  </h3>
-                  <div className="flex flex-col items-start justify-between flex-1 w-full">
-                    <p className="text-dark-blue-gray text-[length:var(--big-font-size)] tracking-[var(--big-letter-spacing)] leading-[var(--big-line-height)] font-big font-[number:var(--big-font-weight)] [font-style:var(--big-font-style)]">
-                        {item.description}
-                    </p>
-                     <div className="inline-flex items-center gap-2 px-0 py-2">
-                        <Link to={`/news/${item.id}`} className="inline-flex items-center gap-2">
-                        <span className="font-semibold text-[#293447]  whitespace-nowrap">
-                            {t('full')}
-                        </span>
-                        <ArrowRightIcon className="w-6 h-6"/>
-                        </Link>
-
-                     </div>
+            <CardContent className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 p-3 sm:p-5 md:p-6 h-full">
+              {/* Image Placeholder */}
+              <div className="w-full sm:w-[180px] md:w-[220px] lg:w-[250px] h-[240px] sm:h-[180px] md:h-[220px] lg:h-[250px] bg-[#dddddd] rounded-lg flex-shrink-0" />
+              
+              {/* Content */}
+              <div className="flex flex-col items-start gap-3 sm:gap-4 flex-1 w-full">
+                <h3 className="font-semibold text-dark-blue-gray text-base sm:text-xl md:text-2xl lg:text-[length:var(--h5-semib-font-size)] tracking-tight leading-tight line-clamp-2">
+                  {item.title}
+                </h3>
+                
+                <div className="flex flex-col items-start justify-between flex-1 w-full gap-2 sm:gap-3">
+                  <p className="text-dark-blue-gray text-sm sm:text-base md:text-lg lg:text-[length:var(--big-font-size)] tracking-normal leading-relaxed line-clamp-3 sm:line-clamp-4">
+                    {item.description}
+                  </p>
+                  
+                  {/* Read More Link */}
+                  <div className="inline-flex items-center gap-2 py-2 mt-auto">
+                    <Link 
+                      to={`/news/${item.id}`} 
+                      className="inline-flex items-center gap-2 group transition-all duration-200 hover:gap-3"
+                    >
+                      <span className="font-semibold text-[#293447] text-sm sm:text-base whitespace-nowrap group-hover:text-blue-600 transition-colors">
+                        {t('full') || 'Dowamyny oka'}
+                      </span>
+                      <ArrowRightIcon className="w-4 h-4 sm:w-6 sm:h-6 group-hover:text-blue-600 transition-all" />
+                    </Link>
                   </div>
                 </div>
-            
+              </div>
             </CardContent>
           </Card>
+        ))}
+      </div>
+
+      {/* Mobile Scroll Indicator */}
+      <div className="sm:hidden flex items-center justify-center w-full gap-2 pt-2">
+        {data?.map((_, index) => (
+          <div
+            key={index}
+            className="w-2 h-2 rounded-full bg-gray-300"
+            aria-hidden="true"
+          />
         ))}
       </div>
     </div>

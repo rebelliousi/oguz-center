@@ -39,12 +39,6 @@ export const HeroSection = () => {
       ) {
         setIsDropdownOpen(false);
       }
-      if (
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target as Node)
-      ) {
-        setIsMobileMenuOpen(false);
-      }
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
@@ -78,6 +72,16 @@ export const HeroSection = () => {
   const handleNavClick = (targetId: string) => {
     const section = document.getElementById(targetId);
     section?.scrollIntoView({ behavior: "smooth" });
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLanguageChange = (langCode: string) => {
+    i18n.changeLanguage(langCode);
     setIsMobileMenuOpen(false);
   };
 
@@ -164,8 +168,9 @@ export const HeroSection = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2 text-gray-700 hover:text-blue-600"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors z-50 relative"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? (
             <XIcon className="w-6 h-6" />
@@ -173,53 +178,58 @@ export const HeroSection = () => {
             <MenuIcon className="w-6 h-6" />
           )}
         </button>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md shadow-lg lg:hidden"
-          >
-            <nav className="flex flex-col p-4 space-y-2">
-              {navigationItems.map((item, i) => (
-                <Button
-                  key={i}
-                  variant="ghost"
-                  onClick={() => handleNavClick(item.targetId)}
-                  className="w-full justify-start px-4 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-blue-100 hover:text-blue-600"
-                >
-                  {item.label}
-                </Button>
-              ))}
-              
-              {/* Mobile Language Selector */}
-              <div className="pt-2 border-t border-gray-200">
-                <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">
-                  Language
-                </p>
-                <div className="flex gap-2 px-4">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        i18n.changeLanguage(lang.code);
-                        setIsMobileMenuOpen(false);
-                      }}
-                      className={`flex-1 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-                        i18n.language === lang.code
-                          ? "bg-blue-600 text-white"
-                          : "bg-gray-100 text-gray-700 hover:bg-blue-100"
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </nav>
-          </div>
-        )}
       </header>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
+      <div
+        ref={mobileMenuRef}
+        className={`fixed top-16 sm:top-20 left-0 right-0 bg-white shadow-lg lg:hidden z-40 transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <nav className="flex flex-col p-4 space-y-2">
+          {navigationItems.map((item, i) => (
+            <Button
+              key={i}
+              variant="ghost"
+              onClick={() => handleNavClick(item.targetId)}
+              className="w-full justify-start px-4 py-3 rounded-lg text-base font-semibold text-gray-700 hover:bg-blue-100 hover:text-blue-600"
+            >
+              {item.label}
+            </Button>
+          ))}
+          
+          {/* Mobile Language Selector */}
+          <div className="pt-2 border-t border-gray-200">
+            <p className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">
+              {t("language") || "Language"}
+            </p>
+            <div className="flex gap-2 px-4 pb-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  className={`flex-1 px-4 py-2 rounded-lg text-sm transition-colors duration-200 bg-gray-100 hover:bg-gray-200 ${
+                    i18n.language === lang.code
+                      ? "font-bold text-gray-900"
+                      : "font-normal text-gray-700"
+                  }`}
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </nav>
+      </div>
 
       {/* Hero Content */}
       <div

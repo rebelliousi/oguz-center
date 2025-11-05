@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react"
 import { Routes, Route } from "react-router-dom"
 import { HeroSection } from "./sections/HeroSection"
+import { AllNewsPage } from "./sections/AllNews"
 
 // Lazy load sections
 const NewsSection = lazy(() => import("./sections/NewsSection").then(m => ({ default: m.NewsSection })))
@@ -50,13 +51,17 @@ export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+        <Route path="/news" element={<AllNewsPage />} />
       <Route 
         path="/news/:id" 
         element={
           <Suspense fallback={<SectionLoader />}>
             <NewsDetailPage />
           </Suspense>
+
+          
         } 
+        
       />
     </Routes>
   )

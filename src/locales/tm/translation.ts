@@ -45,6 +45,7 @@ const tm = {
     titleLine2: "Ylmy-Tehnologiýalar Merkezi",
 
   },
+    "all_news": "TÄZELIKLERIŇ ÄHLISI",
 };
 
 export default tm;

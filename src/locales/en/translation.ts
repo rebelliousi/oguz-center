@@ -48,6 +48,7 @@ const en = {
     titleLine1: "OGUZ HAN",
     titleLine2: "Science & Technology Center",
   },
+  "all_news": "See All News",
 };
 
 export default en;

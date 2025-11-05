@@ -47,6 +47,7 @@ const ru = {
     titleLine2: "Наука и технологии Центр",
    
   },
+    "all_news": "Все новости",
 };
 
 export default ru;

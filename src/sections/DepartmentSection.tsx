@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
-
 gsap.registerPlugin(_ScrollTrigger);
 
 export const DepartmentSection = () => {
@@ -37,60 +36,83 @@ export const DepartmentSection = () => {
   }, [data]);
 
   // Mobile Department Card Component
-  const MobileDepartmentCard = ({ dept }: { dept: any }) => (
-    <Card 
-      className="department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 w-[320px] h-[206px]"
-    >
-      <CardContent className="flex flex-col items-start gap-3 p-4 h-full">
-        {/* Icon */}
-        <div className="flex items-center justify-center w-10 h-10">
-          <img 
-            className="w-full h-full object-contain" 
-            src={dept.icon} 
-            alt={dept.name} 
-          />
-        </div>
+  const MobileDepartmentCard = ({ dept, index, total }: { dept: any, index: number, total: number }) => {
+    const externalUrl =
+      index === total - 2 ? "http://34.133.253.73/" :
+      index === total - 1 ? "http://34.135.242.155/" : null;
 
-        {/* Content */}
-        <div className="flex flex-col items-start gap-2 w-full flex-1 overflow-hidden">
-          <h3 className="font-semibold text-dark-blue-gray text-base tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] line-clamp-2">
-            {dept.name}
-          </h3>
-          <p className="text-medium-new-gray text-sm tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal line-clamp-3">
-            {dept.description}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
+    const handleClick = () => {
+      if (externalUrl) window.open(externalUrl, "_blank");
+    };
+
+    // Button cursor for external links
+    return (
+      <Card 
+        className={`department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 w-[320px] h-[206px] ${externalUrl ? "cursor-pointer" : ""}`}
+        onClick={handleClick}
+      >
+        <CardContent className="flex flex-col items-start gap-3 p-4 h-full">
+          {/* Icon */}
+          <div className="flex items-center justify-center w-10 h-10">
+            <img 
+              className="w-full h-full object-contain" 
+              src={dept.icon} 
+              alt={dept.name} 
+            />
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col items-start gap-2 w-full flex-1 overflow-hidden">
+            <h3 className="font-semibold text-dark-blue-gray text-base tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica] line-clamp-2">
+              {dept.name}
+            </h3>
+            <p className="text-medium-new-gray text-sm tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal line-clamp-3">
+              {dept.description}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   // Desktop Department Card Component
-  const DesktopDepartmentCard = ({ dept }: { dept: any }) => (
-    <Card 
-      className="department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 h-full"
-    >
-      <CardContent className="flex flex-col items-start gap-7 p-6 h-full">
-        {/* Icon */}
-        <div className="flex items-center justify-center w-12 h-12">
-          <img 
-            className="w-full h-full object-contain" 
-            src={dept.icon} 
-            alt={dept.name} 
-          />
-        </div>
+  const DesktopDepartmentCard = ({ dept, index, total }: { dept: any, index: number, total: number }) => {
+    const externalUrl =
+      index === total - 2 ? "http://34.133.253.73/" :
+      index === total - 1 ? "http://34.135.242.155/" : null;
 
-        {/* Content */}
-        <div className="flex flex-col items-start gap-6 w-full flex-1">
-          <h3 className="font-semibold text-dark-blue-gray text-2xl lg:text-[length:var(--h3-semib-font-size)] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
-            {dept.name}
-          </h3>
-          <p className="text-medium-new-gray text-xl xl:text-2xl tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal">
-            {dept.description}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
+    const handleClick = () => {
+      if (externalUrl) window.open(externalUrl, "_blank");
+    };
+
+    return (
+      <Card 
+        className={`department-card border-[1.5px] border-[#d6dce6] hover:shadow-lg transition-shadow duration-300 h-full ${externalUrl ? "cursor-pointer" : ""}`}
+        onClick={handleClick}
+      >
+        <CardContent className="flex flex-col items-start gap-7 p-6 h-full">
+          {/* Icon */}
+          <div className="flex items-center justify-center w-12 h-12">
+            <img 
+              className="w-full h-full object-contain" 
+              src={dept.icon} 
+              alt={dept.name} 
+            />
+          </div>
+
+          {/* Content */}
+          <div className="flex flex-col items-start gap-6 w-full flex-1">
+            <h3 className="font-semibold text-dark-blue-gray text-2xl lg:text-[length:var(--h3-semib-font-size)] tracking-tight leading-tight [font-family:'Plus_Jakarta_Sans',Helvetica]">
+              {dept.name}
+            </h3>
+            <p className="text-medium-new-gray text-xl xl:text-2xl tracking-tight leading-relaxed [font-family:'Plus_Jakarta_Sans',Helvetica] font-normal">
+              {dept.description}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div
@@ -125,7 +147,7 @@ export const DepartmentSection = () => {
         >
           {data?.map((dept, index) => (
             <SwiperSlide key={index} style={{ width: 'auto' }}>
-              <MobileDepartmentCard dept={dept} />
+              <MobileDepartmentCard dept={dept} index={index} total={data.length} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -134,7 +156,7 @@ export const DepartmentSection = () => {
       {/* Desktop Grid (>= lg) */}
       <div className="hidden lg:grid grid-cols-3 xl:grid-cols-4 gap-10 px-20 xl:px-32 2xl:px-[150px] py-0 w-full">
         {data?.map((dept, index) => (
-          <DesktopDepartmentCard key={index} dept={dept} />
+          <DesktopDepartmentCard key={index} dept={dept} index={index} total={data.length} />
         ))}
       </div>
     </div>

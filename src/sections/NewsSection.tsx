@@ -16,6 +16,9 @@ export const NewsSection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { data } = useNews();
 
+  // Sadece en güncel 8 haber
+  const latestNews = data?.slice(0, 8) || [];
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(newsRef.current?.querySelectorAll(".news-card") || [], {
@@ -57,7 +60,17 @@ export const NewsSection = () => {
           {t('navigation.news')}
         </h2>
         <Link to="/news">
-          <Button className="font-semibold text-sm bg-transparent border-2 border-dark-blue-gray text-dark-blue-gray hover:bg-dark-blue-gray hover:text-white transition-all duration-300 rounded-md px-4 py-2 ml-1">
+          <Button
+            className="
+              font-semibold
+              bg-transparent
+              border-2 border-dark-blue-gray text-dark-blue-gray
+              hover:bg-dark-blue-gray hover:text-white
+              transition-all duration-300 rounded-md
+              px-2 py-1 text-xs    /* Mobile: small */
+              sm:ml-1 sm:px-4 sm:py-2 sm:text-sm    /* >=sm: normal */
+            "
+          >
             {t('all_news') || "TÄZELIKLERIŇ ÄHLISI"}
           </Button>
         </Link>
@@ -73,7 +86,7 @@ export const NewsSection = () => {
             msOverflowStyle: 'none',
           }}
         >
-          {data?.map((item, index) => (
+          {latestNews.map((item, index) => (
             <Card
               key={index}
               className="news-card flex-shrink-0 w-[280px] sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[600px] border-[#d6dce6] shadow-sm hover:shadow-md transition-shadow duration-300"

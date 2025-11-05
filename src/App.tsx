@@ -15,54 +15,40 @@ const NewsDetailPage = lazy(() => import("./sections/NewsDetail").then(m => ({ d
 
 // Loading fallback component
 const SectionLoader = () => (
-  <div className="flex items-center justify-center py-20">
+  <div className="flex items-center justify-center min-h-screen">
     <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
   </div>
-)
+);
 
+// all Suspense is wrapped for HomePage loader
 const HomePage = () => (
-  <div className="space-y-16 sm:space-y-12 md:space-y-24 lg:space-y-32">
-    <HeroSection/>
-    <Suspense fallback={<SectionLoader />}>
-      <NewsSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <AboutInfoSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <CDIOSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <DepartmentSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <PartnersSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <ContactSection/>
-    </Suspense>
-    <Suspense fallback={<SectionLoader />}>
-      <FooterSection/>
-    </Suspense>
-  </div>
-)
+  <Suspense fallback={<SectionLoader />}>
+    <div className="space-y-16 sm:space-y-12 md:space-y-24 lg:space-y-32">
+      <HeroSection />
+      <NewsSection />
+      <AboutInfoSection />
+      <CDIOSection />
+      <DepartmentSection />
+      <PartnersSection />
+      <ContactSection />
+      <FooterSection />
+    </div>
+  </Suspense>
+);
 
 export const App = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-        <Route path="/news" element={<AllNewsPage />} />
+      <Route path="/news" element={<AllNewsPage />} />
       <Route 
         path="/news/:id" 
         element={
           <Suspense fallback={<SectionLoader />}>
             <NewsDetailPage />
           </Suspense>
-
-          
         } 
-        
       />
     </Routes>
-  )
+  );
 }

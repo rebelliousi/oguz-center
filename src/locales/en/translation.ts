@@ -4,7 +4,7 @@ const en = {
   heroCTA: "Share your idea",
   brand: "OSTC",
   full: "Full",
-  company:'ASSOCIATES',
+  company: "ASSOCIATES",
   navigation: {
     about: "About us",
     contact: "Contact",
@@ -38,6 +38,19 @@ const en = {
     verifyEmail: "Verify Email",
     emailVerified: "Email successfully verified!",
     verifyFailed: "Email verification failed. Please try again.",
+    nameRequired: "Name is required",
+    emailRequired: "Email is required",
+    invalidEmail: "Invalid email format",
+    phoneRequired: "Phone is required",
+    invalidPhone: "Invalid phone format",
+    aboutRequired: "This field is required",
+    descriptionRequired: "Description is required",
+    fileTooLarge: "File size must be less than 10MB",
+    invalidFileType: "Invalid file type",
+    submitSuccess:
+      "Form submitted successfully! Please check your email for verification.",
+    submissionError: "Submission failed. Please try again.",
+  
   },
   menu: {
     main: "Menu",
@@ -48,7 +61,7 @@ const en = {
     titleLine1: "OGUZ HAN",
     titleLine2: "Science & Technology Center",
   },
-  "all_news": "See All News",
+  all_news: "See All News",
 };
 
 export default en;
